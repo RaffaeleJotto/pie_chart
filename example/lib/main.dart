@@ -77,6 +77,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final chart = PieChart(
+      context: context,
       key: ValueKey(key),
       dataMap: dataMap,
       animationDuration: Duration(milliseconds: 800),
