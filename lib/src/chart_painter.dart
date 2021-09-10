@@ -87,7 +87,7 @@ class PieChartPainter extends CustomPainter {
           chartType == ChartType.disc ? true : false,
           _paintList[i],
         );
-        final radius = showChartValuesOutside ? (side / 2) + strokeWidth : side / 3;
+        final radius = showChartValuesOutside ? (side / 2) + (strokeWidth ?? 0) : side / 3;
         final x = (radius) *
             math.cos(
                 _prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
