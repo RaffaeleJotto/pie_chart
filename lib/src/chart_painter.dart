@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:touchable/touchable.dart';
 
 class PieChartPainter extends CustomPainter {
   List<Paint> _paintList = [];
@@ -25,9 +26,12 @@ class PieChartPainter extends CustomPainter {
   final double? strokeWidth;
   final Color? emptyColor;
 
+  final BuildContext context;
+
   double _prevAngle = 0;
 
   PieChartPainter(
+    this.context,
     double angleFactor,
     this.showChartValues,
     this.showChartValuesOutside,
@@ -70,6 +74,15 @@ class PieChartPainter extends CustomPainter {
         paint.style = PaintingStyle.stroke;
         paint.strokeWidth = strokeWidth!;
       }
+      var myCanvas = TouchyCanvas(context,canvas);
+      myCanvas.drawArc(new Rect.fromLTWH(0.0, 0.0, side, size.height),
+        _prevAngle,
+        360,
+        chartType == ChartType.disc ? true : false,
+        paint,
+        onTapDown: (tapdetail){
+          print("TAPPED!!! $tapdetail");
+        });
       canvas.drawArc(
         new Rect.fromLTWH(0.0, 0.0, side, size.height),
         _prevAngle,

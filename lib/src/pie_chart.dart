@@ -13,6 +13,7 @@ enum ChartType { disc, ring }
 class PieChart extends StatefulWidget {
   PieChart({
     required this.dataMap,
+    required this.context,
     this.chartType = ChartType.disc,
     this.chartRadius,
     this.animationDuration,
@@ -29,6 +30,7 @@ class PieChart extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
+  final BuildContext context;
   final Map<String, double> dataMap;
   final ChartType chartType;
   final double? chartRadius;
@@ -107,6 +109,7 @@ class _PieChartState extends State<PieChart>
               : null,
           child: CustomPaint(
             painter: PieChartPainter(
+              context,
               _animFraction,
               widget.chartValuesOptions.showChartValues,
               widget.chartValuesOptions.showChartValuesOutside,
