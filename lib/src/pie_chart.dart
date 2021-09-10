@@ -13,7 +13,6 @@ enum ChartType { disc, ring }
 class PieChart extends StatefulWidget {
   PieChart({
     required this.dataMap,
-    required this.context,
     this.chartType = ChartType.disc,
     this.chartRadius,
     this.animationDuration,
@@ -27,10 +26,10 @@ class PieChart extends StatefulWidget {
     this.legendOptions = const LegendOptions(),
     this.chartValuesOptions = const ChartValuesOptions(),
     this.emptyColor = Colors.grey,
+    this.paddingValue,
     Key? key,
   }) : super(key: key);
 
-  final BuildContext context;
   final Map<String, double> dataMap;
   final ChartType chartType;
   final double? chartRadius;
@@ -45,6 +44,7 @@ class PieChart extends StatefulWidget {
   final LegendOptions legendOptions;
   final ChartValuesOptions chartValuesOptions;
   final Color emptyColor;
+  final double? paddingValue;
 
   @override
   _PieChartState createState() => _PieChartState();
@@ -109,7 +109,6 @@ class _PieChartState extends State<PieChart>
               : null,
           child: CustomPaint(
             painter: PieChartPainter(
-              context,
               _animFraction,
               widget.chartValuesOptions.showChartValues,
               widget.chartValuesOptions.showChartValuesOutside,
@@ -131,6 +130,7 @@ class _PieChartState extends State<PieChart>
               formatChartValues: widget.formatChartValues,
               strokeWidth: widget.ringStrokeWidth,
               emptyColor: widget.emptyColor,
+              paddingValues: widget.paddingValue
             ),
             child: AspectRatio(aspectRatio: 1),
           ),

@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
-import 'package:touchable/touchable.dart';
 
 class PieChartPainter extends CustomPainter {
   List<Paint> _paintList = [];
@@ -26,12 +25,11 @@ class PieChartPainter extends CustomPainter {
   final double? strokeWidth;
   final Color? emptyColor;
 
-  final BuildContext context;
+  final double? paddingValues;
 
   double _prevAngle = 0;
 
   PieChartPainter(
-    this.context,
     double angleFactor,
     this.showChartValues,
     this.showChartValuesOutside,
@@ -50,6 +48,7 @@ class PieChartPainter extends CustomPainter {
     this.formatChartValues,
     this.strokeWidth,
     this.emptyColor,
+    this.paddingValues,
   }) {
     _total = values.fold(0, (v1, v2) => v1 + v2);
     for (int i = 0; i < values.length; i++) {
@@ -74,15 +73,6 @@ class PieChartPainter extends CustomPainter {
         paint.style = PaintingStyle.stroke;
         paint.strokeWidth = strokeWidth!;
       }
-      var myCanvas = TouchyCanvas(context,canvas);
-      myCanvas.drawArc(new Rect.fromLTWH(0.0, 0.0, side, size.height),
-        _prevAngle,
-        360,
-        chartType == ChartType.disc ? true : false,
-        paint,
-        onTapDown: (tapdetail){
-          print("TAPPED!!! $tapdetail");
-        });
       canvas.drawArc(
         new Rect.fromLTWH(0.0, 0.0, side, size.height),
         _prevAngle,
@@ -100,7 +90,7 @@ class PieChartPainter extends CustomPainter {
           chartType == ChartType.disc ? true : false,
           _paintList[i],
         );
-        final radius = showChartValuesOutside ? (side / 2) + (strokeWidth ?? 0) : side / 3;
+        final radius = showChartValuesOutside ? (side / 2) + (strokeWidth ?? 0) + (paddingValues ?? 0) : side / 3;
         final x = (radius) *
             math.cos(
                 _prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
